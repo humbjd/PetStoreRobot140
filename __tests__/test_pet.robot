@@ -1,6 +1,7 @@
 *** Settings ***
 # Bibliotecas e Configurações
 Library    RequestsLibrary
+Library    Telnet
 
 
 *** Variables ***
@@ -50,5 +51,42 @@ Get pet
     Status Should Be    200
     Should Be Equal    ${response_body}[id]    ${{int($id)}}
     Should Be Equal    ${response_body}[name]    ${name}
-    Should Be Equal    ${response_body}[category][id]    ${category}[id]
+                                                        # ${category}[id]
+                                                        # ${{int(${category}[id])}}
+    Should Be Equal    ${response_body}[category][id]    ${{int(${category}[id])}}
     Should Be Equal    ${response_body}[category][name]    ${category}[name]
+
+Put pet
+    # Montar a mensagem / body com a mudança
+    ${body}    Evaluate    json.loads(open('./fixtures/json/pet2.json').read())
+
+    # Executa
+    ${response}    PUT    url=${url}    json=${body}
+
+
+    # Valida
+    ${response_body}    Set Variable    ${response.json()}
+    Log To Console    ${response_body}
+
+    Status Should Be    200
+    Should Be Equal    ${response_body}[id]                ${{int($id)}}
+    Should Be Equal    ${response_body}[category][id]      ${{int(${category}[id])}}
+    Should Be Equal    ${response_body}[category][name]    ${category}[name]
+    Should Be Equal    ${response_body}[name]              ${name}
+    Should Be Equal    ${response_body}[tags][0][id]       ${{int(${tag}[id])}}
+    Should Be Equal    ${response_body}[tags][0][name]     ${tag}[name]   
+    Should Be Equal    ${response_body}[status]            sold
+    Should Be Equal    ${response_body}[status]            ${body}[status]
+
+Delete pet
+    # Executa
+    ${response}    DELETE    ${{$url + '/' + $id}}
+
+    # Valida
+     ${response_body}    Set Variable    ${response.json()}
+    Log To Console    ${response_body}
+
+    Status Should Be    200
+    Should Be Equal    ${response_body}[code]       ${{int(200)}} 
+    Should Be Equal    ${response_body}[type]       unknown 
+    Should Be Equal    ${response_body}[message]    ${id}

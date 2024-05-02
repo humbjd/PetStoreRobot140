@@ -1,74 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 5.0.1 (Python 3.10.12 on win32)" generated="20240429 16:18:38.051" rpa="false" schemaversion="3">
+<robot generator="Robot 5.0.1 (Python 3.10.12 on win32)" generated="20240502 14:24:57.489" rpa="false" schemaversion="3">
 <suite id="s1" name="Test Pet" source="d:\ESTUDO\ITERASYS\PetStoreRobot140\__tests__\test_pet.robot">
-<test id="s1-t1" name="Post pet" line="21">
-<kw name="Create Dictionary" library="BuiltIn">
+<test id="s1-t1" name="Put pet" line="58">
+<kw name="Evaluate" library="BuiltIn">
 <var>${body}</var>
-<arg>id=${id}</arg>
-<arg>category=${category}</arg>
-<arg>name=${name}</arg>
-<arg>photoUrls=${photoUrls}</arg>
-<arg>tags=${tags}</arg>
-<arg>status=${status}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20240429 16:18:38.085" level="INFO">${body} = {'id': '173218101', 'category': {'id': '1', 'name': 'cachorro'}, 'name': 'Snoopy', 'photoUrls': [], 'tags': [{'id': '1', 'name': 'vacinado'}], 'status': 'available'}</msg>
-<status status="PASS" starttime="20240429 16:18:38.084" endtime="20240429 16:18:38.086"/>
+<arg>json.loads(open('./fixtures/json/pet2.json').read())</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20240502 14:24:57.545" level="INFO">${body} = {'id': 3048452, 'category': {'id': 1, 'name': 'cachorro'}, 'name': 'Snoopy', 'photoUrls': [''], 'tags': [{'id': 1, 'name': 'vacinado'}], 'status': 'sold'}</msg>
+<status status="PASS" starttime="20240502 14:24:57.544" endtime="20240502 14:24:57.546"/>
 </kw>
-<kw name="POST">
+<kw name="PUT">
 <var>${response}</var>
 <arg>url=${url}</arg>
 <arg>json=${body}</arg>
-<msg timestamp="20240429 16:18:38.088" level="FAIL">No keyword with name 'POST' found.</msg>
-<status status="FAIL" starttime="20240429 16:18:38.088" endtime="20240429 16:18:38.089"/>
+<msg timestamp="20240502 14:24:57.548" level="FAIL">No keyword with name 'PUT' found.</msg>
+<status status="FAIL" starttime="20240502 14:24:57.547" endtime="20240502 14:24:57.548"/>
 </kw>
 <kw name="Set Variable" library="BuiltIn">
 <var>${response_body}</var>
 <arg>${response.json()}</arg>
 <doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" starttime="20240429 16:18:38.090" endtime="20240429 16:18:38.090"/>
+<status status="NOT RUN" starttime="20240502 14:24:57.549" endtime="20240502 14:24:57.549"/>
 </kw>
 <kw name="Log To Console" library="BuiltIn">
 <arg>${response_body}</arg>
 <doc>Logs the given message to the console.</doc>
-<status status="NOT RUN" starttime="20240429 16:18:38.090" endtime="20240429 16:18:38.091"/>
+<status status="NOT RUN" starttime="20240502 14:24:57.550" endtime="20240502 14:24:57.550"/>
 </kw>
 <kw name="Status Should Be">
 <arg>200</arg>
-<status status="NOT RUN" starttime="20240429 16:18:38.092" endtime="20240429 16:18:38.092"/>
+<status status="NOT RUN" starttime="20240502 14:24:57.553" endtime="20240502 14:24:57.554"/>
 </kw>
 <kw name="Should Be Equal" library="BuiltIn">
 <arg>${response_body}[id]</arg>
 <arg>${{int($id)}}</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="NOT RUN" starttime="20240429 16:18:38.093" endtime="20240429 16:18:38.093"/>
+<status status="NOT RUN" starttime="20240502 14:24:57.554" endtime="20240502 14:24:57.555"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${response_body}[category][id]</arg>
+<arg>${{int(${category}[id])}}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" starttime="20240502 14:24:57.555" endtime="20240502 14:24:57.556"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${response_body}[category][name]</arg>
+<arg>${category}[name]</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" starttime="20240502 14:24:57.556" endtime="20240502 14:24:57.556"/>
 </kw>
 <kw name="Should Be Equal" library="BuiltIn">
 <arg>${response_body}[name]</arg>
 <arg>${name}</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="NOT RUN" starttime="20240429 16:18:38.093" endtime="20240429 16:18:38.094"/>
+<status status="NOT RUN" starttime="20240502 14:24:57.556" endtime="20240502 14:24:57.557"/>
 </kw>
 <kw name="Should Be Equal" library="BuiltIn">
 <arg>${response_body}[tags][0][id]</arg>
 <arg>${{int(${tag}[id])}}</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="NOT RUN" starttime="20240429 16:18:38.094" endtime="20240429 16:18:38.094"/>
+<status status="NOT RUN" starttime="20240502 14:24:57.557" endtime="20240502 14:24:57.557"/>
 </kw>
 <kw name="Should Be Equal" library="BuiltIn">
 <arg>${response_body}[tags][0][name]</arg>
 <arg>${tag}[name]</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="NOT RUN" starttime="20240429 16:18:38.094" endtime="20240429 16:18:38.095"/>
+<status status="NOT RUN" starttime="20240502 14:24:57.558" endtime="20240502 14:24:57.558"/>
 </kw>
 <kw name="Should Be Equal" library="BuiltIn">
 <arg>${response_body}[status]</arg>
-<arg>${status}</arg>
+<arg>sold</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="NOT RUN" starttime="20240429 16:18:38.095" endtime="20240429 16:18:38.095"/>
+<status status="NOT RUN" starttime="20240502 14:24:57.558" endtime="20240502 14:24:57.559"/>
 </kw>
-<status status="FAIL" starttime="20240429 16:18:38.083" endtime="20240429 16:18:38.096">No keyword with name 'POST' found.</status>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${response_body}[status]</arg>
+<arg>${body}[status]</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" starttime="20240502 14:24:57.559" endtime="20240502 14:24:57.559"/>
+</kw>
+<status status="FAIL" starttime="20240502 14:24:57.543" endtime="20240502 14:24:57.560">No keyword with name 'PUT' found.</status>
 </test>
-<status status="FAIL" starttime="20240429 16:18:38.057" endtime="20240429 16:18:38.097"/>
+<status status="FAIL" starttime="20240502 14:24:57.499" endtime="20240502 14:24:57.561"/>
 </suite>
 <statistics>
 <total>
@@ -81,7 +94,7 @@
 </suite>
 </statistics>
 <errors>
-<msg timestamp="20240429 16:18:38.079" level="ERROR">Error in file 'd:\ESTUDO\ITERASYS\PetStoreRobot140\__tests__\test_pet.robot' on line 3: Importing library 'RequestsLibrary' failed: ModuleNotFoundError: No module named 'RequestsLibrary'
+<msg timestamp="20240502 14:24:57.535" level="ERROR">Error in file 'd:\ESTUDO\ITERASYS\PetStoreRobot140\__tests__\test_pet.robot' on line 3: Importing library 'RequestsLibrary' failed: ModuleNotFoundError: No module named 'RequestsLibrary'
 Traceback (most recent call last):
   None
 PYTHONPATH:
